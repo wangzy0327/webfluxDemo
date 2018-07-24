@@ -6,6 +6,7 @@ import com.wangzy.webfluxdemo.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -103,7 +104,11 @@ public class PersonController {
         return this.personService.findByAge(age);
     }
 
-    @GetMapping("/sortByAgeAndName")
+    /**
+     * 以数据流的形式返回，一条一条返回
+     * @return
+     */
+    @GetMapping(value = "/sortByAgeAndName",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Person> sortByAgeAndName(){return this.personService.findAllSortByAgeAndName();}
 
     @PostMapping("/ageBetween")
